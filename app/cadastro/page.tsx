@@ -3,6 +3,9 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Header from '../components/Header'
+import WhatsappButton from '../components/WhatsappButton'
+import Footer from '../components/Footer'
 
 const UFS = [
   'AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS',
@@ -195,19 +198,8 @@ export default function CadastroPage() {
 
   return (
     <main className="min-h-screen bg-[#eef2fb] flex flex-col font-sans">
-
-      {/* Header */}
-      <header className="bg-[#0d2160] px-6 py-4 flex items-center justify-between shadow-md">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center text-[#0d2160] font-black text-lg">
-            C
-          </div>
-          <span className="text-white font-bold text-lg tracking-wide">CNH FÁCIL</span>
-        </div>
-        <Link href="/login" className="text-blue-200 text-sm font-semibold hover:text-white transition-colors">
-          Já tenho conta
-        </Link>
-      </header>
+      <Header />
+      <WhatsappButton />
 
       {/* Hero */}
       <section className="relative bg-[#0d2160] px-6 pt-8 pb-24 text-center overflow-hidden">
@@ -425,20 +417,7 @@ export default function CadastroPage() {
       </section>
 
       {/* Footer */}
-      <footer className="mt-auto bg-white border-t border-slate-200 px-6 py-6">
-        <div className="flex items-center justify-center gap-6 flex-wrap">
-          <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded-full bg-blue-600" />
-            <span className="text-blue-700 font-bold text-xs">Serpro</span>
-          </div>
-          <div className="text-[#0d2160] font-black text-xs tracking-wider">CNH FÁCIL</div>
-          <div className="text-slate-500 text-xs text-center leading-tight">MINISTÉRIO DOS<br />TRANSPORTES</div>
-          <div className="text-green-700 font-black text-xs">GOVERNO DO BRASIL</div>
-        </div>
-        <p className="text-center text-xs text-slate-400 mt-4">
-          © 2026 LM Cursos de Trânsito & Especializados Brasil
-        </p>
-      </footer>
+      <Footer />
 
     </main>
   )

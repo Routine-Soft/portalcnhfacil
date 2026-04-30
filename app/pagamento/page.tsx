@@ -2,6 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
+import Header from '../components/Header'
+import WhatsappButton from '../components/WhatsappButton'
+import Footer from '../components/Footer'
 
 type Status = 'loading' | 'error'
 
@@ -74,13 +77,8 @@ export default function PagamentoPage() {
   return (
     <main className="min-h-screen bg-[#eef2fb] flex flex-col font-sans">
 
-      {/* Header */}
-      <header className="bg-[#0d2160] px-6 py-4 flex items-center shadow-md">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center text-[#0d2160] font-black text-lg">C</div>
-          <span className="text-white font-bold text-lg tracking-wide">CNH FÁCIL</span>
-        </div>
-      </header>
+      <Header />
+      <WhatsappButton />
 
       {/* Hero */}
       <section className="relative bg-[#0d2160] px-6 pt-10 pb-24 text-center overflow-hidden">
@@ -146,13 +144,13 @@ export default function PagamentoPage() {
                 <div className="w-full flex flex-col gap-3">
                   <button
                     onClick={() => { hasFetched.current = false; setStatus('loading'); setErrorMsg(''); window.location.reload() }}
-                    className="relative w-full py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-yellow-900 font-black text-sm tracking-wide uppercase rounded-2xl shadow-lg shadow-yellow-200 active:scale-[0.98] transition-all overflow-hidden"
+                    className="relative w-full py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-yellow-900 font-black text-sm tracking-wide uppercase rounded-2xl shadow-lg shadow-yellow-200 active:scale-[0.98] transition-all overflow-hidden cursor-pointer"
                   >
                     <Wave /><span className="relative z-10">🔄 Tentar novamente</span>
                   </button>
                   <button
-                    onClick={() => router.push('/cursos')}
-                    className="relative w-full py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-black text-sm tracking-wide uppercase rounded-2xl shadow-lg shadow-blue-200 active:scale-[0.98] transition-all overflow-hidden"
+                    onClick={() => router.push('/')}
+                    className="relative w-full py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-black text-sm tracking-wide uppercase rounded-2xl shadow-lg shadow-blue-200 active:scale-[0.98] transition-all overflow-hidden cursor-pointer"
                   >
                     <Wave /><span className="relative z-10">← Voltar aos Cursos</span>
                   </button>
@@ -165,15 +163,7 @@ export default function PagamentoPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 px-6 py-6">
-        <div className="flex items-center justify-center gap-6 flex-wrap">
-          <div className="flex items-center gap-2"><div className="w-5 h-5 rounded-full bg-blue-600" /><span className="text-blue-700 font-bold text-xs">Serpro</span></div>
-          <div className="text-[#0d2160] font-black text-xs tracking-wider">CNH FÁCIL</div>
-          <div className="text-slate-500 text-xs text-center leading-tight">MINISTÉRIO DOS<br />TRANSPORTES</div>
-          <div className="text-green-700 font-black text-xs">GOVERNO DO BRASIL</div>
-        </div>
-        <p className="text-center text-xs text-slate-400 mt-4">© 2026 LM Cursos de Trânsito & Especializados Brasil</p>
-      </footer>
+      <Footer />
 
     </main>
   )

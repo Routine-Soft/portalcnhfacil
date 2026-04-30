@@ -3,6 +3,9 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import Image from 'next/image'
+import Header from '@/app/components/Header'
+import WhatsappButton from '@/app/components/WhatsappButton'
+import Footer from '@/app/components/Footer'
 
 export default function PagamentoSucessoPage() {
 
@@ -20,36 +23,8 @@ export default function PagamentoSucessoPage() {
 
   return (
     <main className="min-h-screen bg-[#eef2fb] font-sans">
-
-      {/* Header */}
-      <header className="bg-[#0d2160] px-6 py-4 flex items-center justify-between shadow-md">
-        <div className="flex items-center gap-3">
-          <Image
-            src="/img/logotransparente1.png"
-            alt="Logo"
-            width={110}
-            height={80}
-            style={{ width: 110, height: 'auto' }}
-          />
-        </div>
-
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="flex md:hidden flex-col justify-center cursor-pointer items-center gap-1"
-        >
-          <span className="w-6 h-0.5 bg-white rounded" />
-          <span className="w-6 h-0.5 bg-white rounded" />
-          <span className="w-6 h-0.5 bg-white rounded" />
-        </button>
-      </header>
-
-      {/* Overlay mobile */}
-      {menuOpen && (
-        <div
-          className="fixed md:hidden inset-0 bg-black/40 z-40"
-          onClick={() => setMenuOpen(false)}
-        />
-      )}
+      <Header/>
+      <WhatsappButton/>
 
       {/* Hero */}
       <section className="relative bg-[#0d2160] px-6 pt-12 pb-28 text-center overflow-hidden">
@@ -168,36 +143,7 @@ export default function PagamentoSucessoPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 px-6 py-6">
-
-        <div className="flex items-center justify-center gap-6 flex-wrap">
-
-          <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded-full bg-blue-600" />
-            <span className="text-blue-700 font-bold text-xs">
-              Serpro
-            </span>
-          </div>
-
-          <div className="text-[#0d2160] font-black text-xs tracking-wider">
-            CNH FÁCIL
-          </div>
-
-          <div className="text-slate-500 text-xs text-center leading-tight">
-            MINISTÉRIO DOS<br />TRANSPORTES
-          </div>
-
-          <div className="text-green-700 font-black text-xs">
-            GOVERNO DO BRASIL
-          </div>
-
-        </div>
-
-        <p className="text-center text-xs text-slate-400 mt-4">
-          © 2026 LM Cursos de Trânsito & Especializados Brasil
-        </p>
-
-      </footer>
+        <Footer />
 
     </main>
   )
