@@ -188,14 +188,14 @@ export default function Header() {
             <>
               <button
                 onClick={() => { router.push('/register'); setMenuOpen(false) }}
-                className="px-6 py-4 border-b hover:bg-slate-100"
+                className="px-6 py-4 border-b hover:bg-slate-100 text-gray-700 cursor-pointer"
               >
                 Criar Conta
               </button>
 
               <button
                 onClick={() => { router.push('/login'); setMenuOpen(false) }}
-                className="px-6 py-4 border-b hover:bg-slate-100"
+                className="px-6 py-4 border-b hover:bg-slate-100 text-gray-700 cursor-pointer"
               >
                 Fazer Login
               </button>

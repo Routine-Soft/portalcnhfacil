@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Header from '../components/Header'
 import WhatsappButton from '../components/WhatsappButton'
 import Footer from '../components/Footer'
+import Image from 'next/image'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -61,13 +62,13 @@ export default function LoginPage() {
 
         <div className="relative z-10 flex flex-col items-center gap-3">
           <div className="bg-white rounded-2xl px-6 py-3 shadow-xl flex items-center gap-3 mb-1">
-            <div className="w-12 h-12 rounded-full bg-[#0d2160] flex items-center justify-center text-yellow-400 font-black text-xl">
-              C
-            </div>
-            <div className="text-left">
-              <p className="text-[#0d2160] font-black text-xl tracking-wider leading-none">CNH FÁCIL</p>
-              <p className="text-yellow-500 text-xs font-semibold tracking-widest">✓ verificado</p>
-            </div>
+                            <Image
+                                src="/img/logotransparente1.png"
+                                alt="Logo"
+                                width={110}
+                                height={80}
+                                style={{ width: 110, height: 'auto' }}
+                            />
           </div>
           <h1 className="text-white font-black text-xl tracking-wide uppercase">
             Bem-vindo de volta!
