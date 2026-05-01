@@ -98,7 +98,7 @@ export default function Header() {
             ) : (
               <>
                 <button
-                  onClick={() => router.push('/register')}
+                  onClick={() => router.push('/cadastro')}
                   className="px-4 py-2 bg-yellow-400 text-[#0d2160] font-bold rounded-xl hover:bg-yellow-300 transition text-gray-800"
                 >
                   Criar Conta
@@ -187,7 +187,7 @@ export default function Header() {
           ) : (
             <>
               <button
-                onClick={() => { router.push('/register'); setMenuOpen(false) }}
+                onClick={() => { router.push('/cadastro'); setMenuOpen(false) }}
                 className="px-6 py-4 border-b hover:bg-slate-100 text-gray-700 cursor-pointer"
               >
                 Criar Conta
