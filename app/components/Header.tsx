@@ -99,14 +99,14 @@ export default function Header() {
               <>
                 <button
                   onClick={() => router.push('/register')}
-                  className="px-4 py-2 bg-yellow-400 text-[#0d2160] font-bold rounded-xl hover:bg-yellow-300 transition"
+                  className="px-4 py-2 bg-yellow-400 text-[#0d2160] font-bold rounded-xl hover:bg-yellow-300 transition text-gray-800"
                 >
                   Criar Conta
                 </button>
 
                 <button
                   onClick={() => router.push('/login')}
-                  className="px-4 py-2 border border-white text-white font-bold rounded-xl hover:bg-white hover:text-[#0d2160] transition"
+                  className="px-4 py-2 border border-white text-white font-bold rounded-xl hover:bg-white hover:text-[#0d2160] transition text-gray-800"
                 >
                   Fazer Login
                 </button>
