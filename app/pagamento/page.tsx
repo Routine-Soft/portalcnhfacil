@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Header from '../components/Header'
 import WhatsappButton from '../components/WhatsappButton'
@@ -9,16 +9,23 @@ import Footer from '../components/Footer'
 type Status = 'loading' | 'error'
 
 export default function PagamentoPage() {
-  const searchParams = useSearchParams()
-  const router       = useRouter()
-  const hasFetched   = useRef(false)
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Carregando...</div>}>
+      <PagamentoContent />
+    </Suspense>
+  )
+}
 
-  // Recebe name e price da página de cursos
-  const name  = searchParams.get('name')
+function PagamentoContent() {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const hasFetched = useRef(false)
+
+  const name = searchParams.get('name')
   const price = searchParams.get('price')
   const productId = searchParams.get('productId')
 
-  const [status,   setStatus]   = useState<Status>('loading')
+  const [status, setStatus] = useState<Status>('loading')
   const [errorMsg, setErrorMsg] = useState('')
 
   function fail(msg: string) {
@@ -39,7 +46,6 @@ export default function PagamentoPage() {
       try {
         const accessToken = localStorage.getItem('accessToken')
 
-        // Chama o backend — igual ao Postman, só name e price
         const response = await fetch('http://localhost:4000/api/payments/checkout', {
           method: 'POST',
           headers: {
@@ -47,9 +53,9 @@ export default function PagamentoPage() {
             ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
           },
           body: JSON.stringify({
-            name:  name,
+            name,
             price: Number(price),
-            productId: productId,
+            productId,
           }),
         })
 
@@ -60,7 +66,6 @@ export default function PagamentoPage() {
           return
         }
 
-        // Redireciona para o checkout do AbacatePay
         if (data.url) {
           window.location.href = data.url
         } else {
@@ -72,7 +77,7 @@ export default function PagamentoPage() {
     }
 
     processPagamento()
-  }, [name, price])
+  }, [name, price, productId])
 
   return (
     <main className="min-h-screen bg-[#eef2fb] flex flex-col font-sans">
@@ -80,7 +85,6 @@ export default function PagamentoPage() {
       <Header />
       <WhatsappButton />
 
-      {/* Hero */}
       <section className="relative bg-[#0d2160] px-6 pt-10 pb-24 text-center overflow-hidden">
         <div className="absolute -top-10 -left-10 w-48 h-48 rounded-full bg-blue-800 opacity-30" />
         <div className="absolute -bottom-16 -right-10 w-64 h-64 rounded-full bg-blue-900 opacity-40" />
@@ -93,7 +97,6 @@ export default function PagamentoPage() {
         </div>
       </section>
 
-      {/* Card */}
       <section className="flex-1 px-5 -mt-10 pb-16 relative z-10 max-w-md mx-auto w-full">
         <div className="bg-white rounded-3xl shadow-xl shadow-blue-100 overflow-hidden w-full">
 
@@ -119,9 +122,9 @@ export default function PagamentoPage() {
                   <p className="text-xs text-slate-400 font-semibold uppercase tracking-widest mb-3">Métodos aceitos</p>
                   <div className="flex justify-center gap-4">
                     {[
-                      { icon: '🏦', label: 'PIX',    bg: 'bg-emerald-500', shadow: 'shadow-emerald-200' },
-                      { icon: '💳', label: 'Cartão', bg: 'bg-blue-500',    shadow: 'shadow-blue-200'    },
-                      { icon: '🔒', label: 'Seguro', bg: 'bg-purple-500',  shadow: 'shadow-purple-200'  },
+                      { icon: '🏦', label: 'PIX', bg: 'bg-emerald-500', shadow: 'shadow-emerald-200' },
+                      { icon: '💳', label: 'Cartão', bg: 'bg-blue-500', shadow: 'shadow-blue-200' },
+                      { icon: '🔒', label: 'Seguro', bg: 'bg-purple-500', shadow: 'shadow-purple-200' },
                     ].map(m => (
                       <div key={m.label} className="flex flex-col items-center gap-1">
                         <div className={`w-12 h-12 rounded-xl ${m.bg} flex items-center justify-center text-white text-xl shadow-md ${m.shadow}`}>{m.icon}</div>
@@ -162,9 +165,7 @@ export default function PagamentoPage() {
         </div>
       </section>
 
-      {/* Footer */}
       <Footer />
-
     </main>
   )
 }
