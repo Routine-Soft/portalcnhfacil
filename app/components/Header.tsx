@@ -98,6 +98,26 @@ export default function Header() {
             ) : (
               <>
                 <button
+                  onClick={() => router.push('/')}
+                  className="hover:text-yellow-400 transition cursor-pointer"
+                >
+                  Pagina Principal
+                </button>
+
+                <button
+                  onClick={() => router.push('/sobrenos')}
+                  className="hover:text-yellow-400 transition cursor-pointer"
+                >
+                  Sobre Nós
+                </button>
+
+                <button
+                  onClick={() => router.push('/contato')}
+                  className="hover:text-yellow-400 transition cursor-pointer"
+                >
+                  Contato
+                </button>
+                <button
                   onClick={() => router.push('/cadastro')}
                   className="px-4 py-2 bg-yellow-400 text-[#0d2160] font-bold rounded-xl hover:bg-yellow-300 transition text-gray-800"
                 >
@@ -155,21 +175,21 @@ export default function Header() {
             <>
               <button
                 onClick={() => { router.push('/'); setMenuOpen(false) }}
-                className="px-6 py-4 border-b hover:bg-slate-100 text-left text-gray-700 cursor-pointer"
+                className="px-6 py-4 border-b hover:bg-slate-100 text-gray-700 cursor-pointer"
               >
                 Pagina Principal
               </button>
 
               <button
                 onClick={() => { router.push('/sobrenos'); setMenuOpen(false) }}
-                className="px-6 py-4 border-b hover:bg-slate-100 text-left text-gray-700 cursor-pointer"
+                className="px-6 py-4 border-b hover:bg-slate-100 text-gray-700 cursor-pointer"
               >
                 Sobre Nós
               </button>
 
               <button
                 onClick={() => { router.push('/contato'); setMenuOpen(false) }}
-                className="px-6 py-4 border-b hover:bg-slate-100 text-left text-gray-700 cursor-pointer"
+                className="px-6 py-4 border-b hover:bg-slate-100 text-gray-700 cursor-pointer"
               >
                 Contato
               </button>
@@ -179,13 +199,34 @@ export default function Header() {
                     handleLogout()
                     setMenuOpen(false)
                 }}
-                className="px-6 py-4 text-left text-red-500 border-b hover:bg-red-50 cursor-pointer"
+                className="px-6 py-4 text-red-500 border-b hover:bg-red-50 cursor-pointer"
                 >
                 Sair
               </button>
             </>
           ) : (
             <>
+              <button
+                onClick={() => { router.push('/'); setMenuOpen(false) }}
+                className="px-6 py-4 border-b hover:bg-slate-100 text-gray-700 cursor-pointer"
+              >
+                Pagina Principal
+              </button>
+
+              <button
+                onClick={() => { router.push('/sobrenos'); setMenuOpen(false) }}
+                className="px-6 py-4 border-b hover:bg-slate-100 text-gray-700 cursor-pointer"
+              >
+                Sobre Nós
+              </button>
+
+              <button
+                onClick={() => { router.push('/contato'); setMenuOpen(false) }}
+                className="px-6 py-4 border-b hover:bg-slate-100 text-gray-700 cursor-pointer"
+              >
+                Contato
+              </button>
+
               <button
                 onClick={() => { router.push('/cadastro'); setMenuOpen(false) }}
                 className="px-6 py-4 border-b hover:bg-slate-100 text-gray-700 cursor-pointer"

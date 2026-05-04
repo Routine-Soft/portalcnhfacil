@@ -39,10 +39,11 @@ export default function Footer() {
 
     <div className="flex flex-col gap-2 text-sm text-blue-100 items-center md:items-start">
 
-      <Link href="/">Início</Link>
+      <Link href="/">Página Inicial</Link>
       <Link href="/sobrenos">Sobre Nós</Link>
-      <Link href="/cursos">Cursos</Link>
       <Link href="/contato">Fale Conosco</Link>
+      <Link href="/login">Login</Link>
+      <Link href="/cadastro">Cadastro</Link>
 
     </div>
   </div>
