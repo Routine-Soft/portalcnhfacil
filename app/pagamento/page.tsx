@@ -46,7 +46,7 @@ function PagamentoContent() {
       try {
         const accessToken = localStorage.getItem('accessToken')
 
-        const response = await fetch('http://localhost:4000/api/payments/checkout', {
+        const response = await fetch('https://api.portalcnhfacil.com/api/payments/checkout', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
