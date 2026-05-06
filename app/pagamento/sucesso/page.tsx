@@ -120,7 +120,7 @@ export default function PagamentoSucessoPage() {
 
             {/* Botão voltar */}
             <button
-              onClick={() => router.push('/cursos')}
+              onClick={() => router.push('/')}
               className="relative w-full py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-black text-sm tracking-wide uppercase rounded-2xl shadow-lg shadow-blue-200 active:scale-[0.98] transition-all overflow-hidden cursor-pointer"
             >
 
