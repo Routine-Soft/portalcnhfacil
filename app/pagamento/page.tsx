@@ -47,7 +47,7 @@ function PagamentoContent() {
       try {
         const accessToken = localStorage.getItem('accessToken')
 
-        const response = await fetch(`${API_URL}/api/payments/checkout`, {
+        const response = await fetch(`${API_URL}/payments/checkout`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
