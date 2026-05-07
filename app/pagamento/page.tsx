@@ -24,6 +24,23 @@ function PagamentoContent() {
   const name = searchParams.get('name')
   const price = searchParams.get('price')
   const productId = searchParams.get('productId')
+  // Obter dados do usuário (do localStorage ou da resposta de login)
+  const user = JSON.parse(localStorage.getItem('user') || '{}')
+
+  // Remover a senha antes de enviar
+  const userWithoutPassword = {
+    _id: user._id,
+    nome: user.nome,
+    email: user.email,
+    whatsapp: user.whatsapp,
+    cpf: user.cpf,
+    cnh: user.cnh,
+    categoriaCnh: user.categoriaCnh,
+    ufCnh: user.ufCnh,
+    dataNascimento: user.dataNascimento,
+    endereco: user.endereco,
+    access: user.access,
+  }
 
   const [status, setStatus] = useState<Status>('loading')
   const [errorMsg, setErrorMsg] = useState('')
@@ -61,6 +78,7 @@ function PagamentoContent() {
             name,
             price: Number(price),
             productId,
+            user: userWithoutPassword,
           }),
         })
 
