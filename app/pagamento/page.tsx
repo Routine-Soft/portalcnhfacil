@@ -27,6 +27,7 @@ function PagamentoContent() {
 
   const [status, setStatus] = useState<Status>('loading')
   const [errorMsg, setErrorMsg] = useState('')
+  const API_URL = process.env.NEXT_PUBLIC_API_URL
 
   function fail(msg: string) {
     setErrorMsg(msg)
@@ -46,7 +47,7 @@ function PagamentoContent() {
       try {
         const accessToken = localStorage.getItem('accessToken')
 
-        const response = await fetch('https://api.portalcnhfacil.com/api/payments/checkout', {
+        const response = await fetch(`${API_URL}/api/payments/checkout`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

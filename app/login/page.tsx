@@ -15,6 +15,7 @@ export default function LoginPage() {
   const [showSenha, setShowSenha] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const API_URL = process.env.NEXT_PUBLIC_API_URL
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
@@ -22,7 +23,7 @@ export default function LoginPage() {
     setLoading(true)
 
     try {
-      const res = await fetch('https://api.portalcnhfacil.com/api/login', {
+      const res = await fetch(`${API_URL}/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, senha }),
