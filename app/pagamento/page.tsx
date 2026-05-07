@@ -51,7 +51,7 @@ function PagamentoContent() {
 
         console.log('API_URL:', API_URL)
 
-        const response = await fetch(`${API_URL}/payments/checkout`, {
+        const response = await fetch(`${API_URL}/api/payments/checkout`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
