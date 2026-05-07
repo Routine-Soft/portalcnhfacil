@@ -43,9 +43,13 @@ function PagamentoContent() {
       return
     }
 
+
+
     const processPagamento = async () => {
       try {
         const accessToken = localStorage.getItem('accessToken')
+
+        console.log('API_URL:', API_URL)
 
         const response = await fetch(`${API_URL}/payments/checkout`, {
           method: 'POST',
