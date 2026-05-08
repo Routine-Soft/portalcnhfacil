@@ -84,6 +84,13 @@ export default function Header() {
                   Contato
                 </button>
 
+                <button
+                  onClick={() => router.push('/dashboard')}
+                  className="px-3 py-1 bg-yellow-400 text-[#0d2160] font-semibold rounded-lg hover:bg-yellow-300 transition cursor-pointer"
+                >
+                  Painel Administrativo
+                </button>
+
                 <span className="ml-2 font-semibold text-yellow-400">
                   Bem vindo, {userName.split(' ')[0]}
                 </span>
@@ -117,16 +124,24 @@ export default function Header() {
                 >
                   Contato
                 </button>
+
+                <button
+                  onClick={() => router.push('/login')}
+                  className="px-4 py-2 bg-yellow-400 text-[#0d2160] font-semibold rounded-xl hover:bg-yellow-300 transition cursor-pointer"
+                >
+                  Painel Administrativo
+                </button>
+
                 <button
                   onClick={() => router.push('/cadastro')}
-                  className="px-4 py-2 bg-yellow-400 text-[#0d2160] font-bold rounded-xl hover:bg-yellow-300 transition text-gray-800"
+                  className="px-4 py-2 bg-yellow-400 text-[#0d2160] font-bold rounded-xl hover:bg-yellow-300 transition text-gray-800 cursor-pointer"
                 >
                   Criar Conta
                 </button>
 
                 <button
                   onClick={() => router.push('/login')}
-                  className="px-4 py-2 border border-white text-white font-bold rounded-xl hover:bg-white hover:text-[#0d2160] transition text-gray-800"
+                  className="px-4 py-2 border border-white text-white font-bold rounded-xl hover:bg-white hover:text-[#0d2160] transition text-gray-800 cursor-pointer"
                 >
                   Fazer Login
                 </button>
@@ -195,6 +210,13 @@ export default function Header() {
               </button>
 
               <button
+                onClick={() => { router.push('/dashboard'); setMenuOpen(false) }}
+                className="px-6 py-4 border-b bg-yellow-400 text-[#0d2160] font-semibold hover:bg-yellow-300 cursor-pointer"
+              >
+                Painel Administrativo
+              </button>
+
+              <button
                 onClick={() => {
                     handleLogout()
                     setMenuOpen(false)
@@ -225,6 +247,13 @@ export default function Header() {
                 className="px-6 py-4 border-b hover:bg-slate-100 text-gray-700 cursor-pointer"
               >
                 Contato
+              </button>
+
+              <button
+                onClick={() => { router.push('/login'); setMenuOpen(false) }}
+                className="px-6 py-4 border-b bg-yellow-400 text-[#0d2160] font-semibold hover:bg-yellow-300 cursor-pointer"
+              >
+                Painel Administrativo
               </button>
 
               <button
