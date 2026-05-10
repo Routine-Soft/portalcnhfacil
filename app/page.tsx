@@ -102,12 +102,89 @@ function parsePreco(preco: string): number {
   return parseFloat(preco.replace('R$', '').replace(/\./g, '').replace(',', '.').trim())
 }
 
+// Requisitos de categorias CNH para cursos de Formação e Atualização
+const REQUISITOS_CURSOS: Record<string, string[]> = {
+  'Carga Indivisível Formação': ['C', 'D', 'E'],
+  'Carga Indivisível Atualização': ['C', 'D', 'E'],
+  'Coletivo de Passageiros Formação': ['D', 'E'],
+  'Coletivo de Passageiros Atualização': ['D', 'E'],
+  'Emergência Formação': ['A', 'B', 'C', 'D', 'E'],
+  'Emergência Atualização': ['A', 'B', 'C', 'D', 'E'],
+  'Escolar Formação': ['D', 'E'],
+  'Escolar Atualização': ['D', 'E'],
+  'Produtos Perigosos - MOPP Formação': ['B', 'C', 'D', 'E'],
+  'Produtos Perigosos - MOPP Atualização': ['B', 'C', 'D', 'E'],
+}
+
+type User = {
+  _id: string
+  nome: string
+  email: string
+  whatsapp: string
+  cpf: string
+  cnh: string
+  categoriaCnh: string[]
+  ufCnh: string
+  dataNascimento: string
+  endereco: {
+    logradouro: string
+    numero: string
+    bairro: string
+    cidade: string
+    estado: string
+    cep: string
+  }
+  access: boolean
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
+type ValidationError = {
+  hasError: boolean
+  idadeOk: boolean
+  categoriaOk: boolean
+  requiredCategories: string[]
+  userCategories: string[]
+}
+
+// Calcula idade a partir da data de nascimento
+function calcularIdade(dataNascimento: string): number {
+  const hoje = new Date()
+  const nascimento = new Date(dataNascimento)
+  let idade = hoje.getFullYear() - nascimento.getFullYear()
+  const mes = hoje.getMonth() - nascimento.getMonth()
+  
+  if (mes < 0 || (mes === 0 && hoje.getDate() < nascimento.getDate())) {
+    idade--
+  }
+  
+  return idade
+}
+
+// Valida requisitos do curso (apenas para Formação e Atualização)
+function validarRequisitoCurso(course: Course, user: User): ValidationError {
+  const idadeOk = calcularIdade(user.dataNascimento) >= 21
+  const requiredCategories = REQUISITOS_CURSOS[course.titulo] || []
+  const categoriaOk = requiredCategories.length === 0 || requiredCategories.some(cat => user.categoriaCnh.includes(cat))
+
+  return {
+    hasError: !idadeOk || !categoriaOk,
+    idadeOk,
+    categoriaOk,
+    requiredCategories,
+    userCategories: user.categoriaCnh,
+  }
+}
+
 export default function CursosPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [userName, setUserName] = useState('Usuário')
   const [isLogged, setIsLogged] = useState(false)
+  const [validationError, setValidationError] = useState<ValidationError | null>(null)
+  const [courseTitle, setCourseTitle] = useState('')
 
   useEffect(() => {
   startTransition(() => {
@@ -140,15 +217,34 @@ export default function CursosPage() {
       return
     }
 
-    setLoading(true)
+    try {
+      const user: User = JSON.parse(userStr)
+      
+      // Verifica se o curso requer validação (Formação ou Atualização)
+      const requiresValidation = REQUISITOS_CURSOS[course.titulo] !== undefined
 
-    // Passa nome e preço via query params para a página de pagamento
-    const params = new URLSearchParams({
-      name:  course.titulo,
-      price: String(parsePreco(course.preco)),
-      productId: course.productId,
-    })
-    router.push(`/pagamento?${params.toString()}`)
+      if (requiresValidation) {
+        const validation = validarRequisitoCurso(course, user)
+        
+        if (validation.hasError) {
+          setValidationError(validation)
+          setCourseTitle(course.titulo)
+          return
+        }
+      }
+
+      setLoading(true)
+
+      // Passa nome e preço via query params para a página de pagamento
+      const params = new URLSearchParams({
+        name:  course.titulo,
+        price: String(parsePreco(course.preco)),
+        productId: course.productId,
+      })
+      router.push(`/pagamento?${params.toString()}`)
+    } catch {
+      router.push('/login')
+    }
   }
 
   return (
@@ -187,6 +283,11 @@ export default function CursosPage() {
             <div className="relative z-10 flex-1">
               <p className={`font-black text-lg leading-snug ${course.textColor}`}>{course.titulo}</p>
               {course.subtitulo && <p className={`text-sm font-semibold mt-0.5 opacity-80 ${course.textColor}`}>({course.subtitulo})</p>}
+              {REQUISITOS_CURSOS[course.titulo] && (
+                <div className={`text-xs mt-1.5 opacity-75 ${course.textColor}`}>
+                  <p>Requisitos: Idade 21 anos - Categoria: {REQUISITOS_CURSOS[course.titulo].join(', ')}</p>
+                </div>
+              )}
             </div>
             <div className="relative z-10 text-5xl ml-4 drop-shadow-md select-none">{course.emoji}</div>
           </div>
@@ -196,6 +297,85 @@ export default function CursosPage() {
       {/* Footer */}
       <Footer />
 
+      {/* Modal de Erro de Requisitos */}
+      {validationError && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4">
+          <div className="bg-white rounded-2xl p-6 max-w-sm shadow-2xl animate-in fade-in zoom-in duration-300">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-full bg-red-100">
+                <svg className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h2 className="text-xl font-bold text-gray-900">Requisitos não cumpridos</h2>
+            </div>
+            
+            <p className="text-gray-700 mb-4 font-semibold">{courseTitle}</p>
+            
+            <div className="space-y-3 mb-6">
+              {/* Validação de Idade */}
+              <div className="flex items-start gap-3">
+                <div className={`flex-shrink-0 mt-0.5 ${validationError.idadeOk ? 'text-green-500' : 'text-red-500'}`}>
+                  {validationError.idadeOk ? (
+                    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  ) : (
+                    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                    </svg>
+                  )}
+                </div>
+                <div>
+                  <p className={`font-semibold ${validationError.idadeOk ? 'text-green-700' : 'text-red-700'}`}>
+                    Idade mínima: 21 anos
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    {validationError.idadeOk ? '✓ Você atende este requisito' : '✗ Você não tem 21 anos ainda'}
+                  </p>
+                </div>
+              </div>
+
+              {/* Validação de Categoria CNH */}
+              {validationError.requiredCategories.length > 0 && (
+                <div className="flex items-start gap-3">
+                  <div className={`flex-shrink-0 mt-0.5 ${validationError.categoriaOk ? 'text-green-500' : 'text-red-500'}`}>
+                    {validationError.categoriaOk ? (
+                      <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    ) : (
+                      <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                      </svg>
+                    )}
+                  </div>
+                  <div>
+                    <p className={`font-semibold ${validationError.categoriaOk ? 'text-green-700' : 'text-red-700'}`}>
+                      Categoria CNH requerida: {validationError.requiredCategories.join(', ')}
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      {validationError.categoriaOk 
+                        ? `✓ Sua categoria ${validationError.userCategories.join(', ')} atende` 
+                        : `✗ Sua categoria ${validationError.userCategories.join(', ')} não atende`}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <button
+              onClick={() => {
+                setValidationError(null)
+                setCourseTitle('')
+              }}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition-colors"
+            >
+              Entendido
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   )
 }
