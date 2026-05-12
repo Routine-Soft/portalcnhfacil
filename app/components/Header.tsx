@@ -91,6 +91,13 @@ export default function Header() {
                   Painel Administrativo
                 </button>
 
+                <button
+                  onClick={() => router.push('/minhaconta')}
+                  className="px-3 py-1 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition cursor-pointer"
+                >
+                  Minha Conta
+                </button>
+
                 <span className="ml-2 font-semibold text-yellow-400">
                   Bem vindo, {userName.split(' ')[0]}
                 </span>
@@ -214,6 +221,13 @@ export default function Header() {
                 className="px-6 py-4 border-b bg-yellow-400 text-[#0d2160] font-semibold hover:bg-yellow-300 cursor-pointer"
               >
                 Painel Administrativo
+              </button>
+
+              <button
+                onClick={() => { router.push('/minhaconta'); setMenuOpen(false) }}
+                className="px-6 py-4 border-b bg-blue-500 text-white font-semibold hover:bg-blue-600 cursor-pointer"
+              >
+                Minha Conta
               </button>
 
               <button

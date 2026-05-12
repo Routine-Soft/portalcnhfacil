@@ -51,6 +51,20 @@ function getInitialAuthStatus(): 'authorized' | 'unauthorized' {
   }
 }
 
+function getPaymentMethodLabel(method: string | undefined): string {
+  if (!method) return '-'
+
+  const translations: Record<string, string> = {
+    card: 'Cartão',
+    boleto: 'Boleto',
+    pix: 'PIX',
+    debit_card: 'Cartão de Débito',
+    credit_card: 'Cartão de Crédito',
+  }
+
+  return translations[method.toLowerCase()] || method
+}
+
 export default function DashboardPage() {
   const router = useRouter()
   const [purchases, setPurchases] = useState<Purchase[]>([])
@@ -228,11 +242,10 @@ export default function DashboardPage() {
                       <Info label="UF CNH" value={purchase.user?.ufCnh} />
                       <Info
                         label="Método de Pagamento"
-                        value={
+                        value={getPaymentMethodLabel(
                           purchase.gateway_response?.payerInformation?.method ||
-                          purchase.gateway_response?.methods?.[0] ||
-                          '-'
-                        }
+                          purchase.gateway_response?.methods?.[0]
+                        )}
                       />
                       <Info label="Logradouro" value={purchase.user?.endereco?.logradouro} />
                       <Info label="Número" value={purchase.user?.endereco?.numero} />
