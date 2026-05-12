@@ -68,9 +68,11 @@ export default function DashboardPage() {
         const response = await fetch(`${API_URL}/api/history`)
         const data = await response.json()
 
-        const sorted = data.sort((a: Purchase, b: Purchase) => {
-          return new Date(b.paid_at).getTime() - new Date(a.paid_at).getTime()
-        })
+        const sorted = data
+          .filter((purchase: Purchase) => purchase.status === 'paid')
+          .sort((a: Purchase, b: Purchase) => {
+            return new Date(b.paid_at).getTime() - new Date(a.paid_at).getTime()
+          })
 
         setPurchases(sorted)
       } catch (error) {
