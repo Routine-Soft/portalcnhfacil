@@ -109,11 +109,11 @@ export default function MinhaContaPage() {
         }
         
         const userData = JSON.parse(userStr)
-        if (userData.access !== true) {
-          setAuthStatus('unauthorized')
-          setLoading(false)
-          return
-        }
+        // if (userData.access !== true) {
+        //   setAuthStatus('unauthorized')
+        //   setLoading(false)
+        //   return
+        // }
 
         // Autorizado, agora busca os dados
         setAuthStatus('authorized')
