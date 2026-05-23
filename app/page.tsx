@@ -282,6 +282,7 @@ export default function CursosPage() {
             </div>
             <div className="relative z-10 flex-1">
               <p className={`font-black text-lg leading-snug ${course.textColor}`}>{course.titulo}</p>
+              <p className={`font-black text-lg ${course.textColor}`}>{course.preco}</p>
               {course.subtitulo && <p className={`text-sm font-semibold mt-0.5 opacity-80 ${course.textColor}`}>({course.subtitulo})</p>}
               {REQUISITOS_CURSOS[course.titulo] && (
                 <div className={`text-xs mt-1.5 opacity-75 ${course.textColor}`}>
