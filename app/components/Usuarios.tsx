@@ -433,7 +433,7 @@ export default function Usuarios() {
 
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-2">
-                  Acesso Concedido
+                  Acesso Administrativo
                 </label>
                 <select
                   value={editingUser.access ? 'sim' : 'nao'}
