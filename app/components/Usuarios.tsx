@@ -215,7 +215,7 @@ export default function Usuarios() {
                 <Info label="Estado" value={user.endereco?.estado} />
                 <Info label="CEP" value={user.endereco?.cep} />
                 <Info
-                  label="Acesso Concedido"
+                  label="Acesso Administrativo"
                   value={user.access ? 'Sim' : 'Não'}
                 />
               </div>
