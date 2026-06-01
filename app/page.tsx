@@ -94,6 +94,21 @@ const courses: Course[] = [
   { id: 47, titulo: 'Monitor de Transporte Escolar',                       subtitulo: null, categoria: 'Capacitação', bg: 'from-sky-500 to-cyan-600',     shadow: 'shadow-sky-300',   textColor: 'text-white', emoji: '🏫', preco: 'R$ 130,00', productId: 'prod_t1AXgkGWfDUAeUbBMcR1gpRj' },
   { id: 48, titulo: 'Noções Básicas de Primeiros Socorros',                subtitulo: null, categoria: 'Capacitação', bg: 'from-sky-500 to-cyan-600',     shadow: 'shadow-sky-300',   textColor: 'text-white', emoji: '🩺', preco: 'R$ 130,00', productId: 'prod_zTyngueZwbjMNNmwpajuUUqb' },
   { id: 49, titulo: 'Prevenção e Combate a Incêndio',                      subtitulo: null, categoria: 'Capacitação', bg: 'from-sky-500 to-cyan-600',     shadow: 'shadow-sky-300',   textColor: 'text-white', emoji: '🧯', preco: 'R$ 130,00', productId: 'prod_HDWtpTCEWeuQSacKzdjZfFcU' },
+  
+  // ─── CURSOS DE TRÂNSITO AVANÇADOS / TRABALHO (ESQUECIDOS) ─────────────────
+  { id: 50, titulo: 'Curso de Junta Administrativa e Recursos de Infração (JARI)', subtitulo: '16h', categoria: 'Capacitação', bg: 'from-sky-500 to-cyan-600', shadow: 'shadow-sky-300', textColor: 'text-white', emoji: '⚖️', preco: 'R$ 400,00', productId: 'prod_hynh5HsHS1Kf6exXHbSfNrPP' },
+  { id: 51, titulo: 'Formação para Instrutor de CFC', subtitulo: '180h', categoria: 'Instrutor', bg: 'from-indigo-500 to-purple-600', shadow: 'shadow-indigo-300', textColor: 'text-white', emoji: '👨‍🏫', preco: 'R$ 3000,00', productId: 'prod_33FUMPnkHYhPAkw6356CZU6r' },
+  { id: 52, titulo: 'Complementação para Instrutor de CFC', subtitulo: '60h', categoria: 'Instrutor', bg: 'from-indigo-500 to-purple-600', shadow: 'shadow-indigo-300', textColor: 'text-white', emoji: '📚', preco: 'R$ 1400,00', productId: 'prod_RMj0TcXsf6yuYNUgGg1NTDQG' },
+  { id: 53, titulo: 'Atualização para Instrutor de CFC', subtitulo: '20h', categoria: 'Instrutor', bg: 'from-indigo-500 to-purple-600', shadow: 'shadow-indigo-300', textColor: 'text-white', emoji: '🔄', preco: 'R$ 600,00', productId: 'prod_Jxhp1BhjYeRNmLBtZ0ujuUsz' },
+  { id: 54, titulo: 'Formação para Diretor Geral de CFC', subtitulo: '40h', categoria: 'Diretor', bg: 'from-teal-500 to-emerald-600', shadow: 'shadow-teal-300', textColor: 'text-white', emoji: '👔', preco: 'R$ 1200,00', productId: 'prod_a2MuyQ6uzXqKEarMTmCkr35y' },
+  { id: 55, titulo: 'Formação para Diretor de Ensino de CFC', subtitulo: '40h', categoria: 'Diretor', bg: 'from-teal-500 to-emerald-600', shadow: 'shadow-teal-300', textColor: 'text-white', emoji: '📝', preco: 'R$ 1200,00', productId: 'prod_xrn2fHzLLHEpQuGC14rj5NPL' },
+  { id: 56, titulo: 'Atualização para Diretor Geral de CFC', subtitulo: '20h', categoria: 'Diretor', bg: 'from-teal-500 to-emerald-600', shadow: 'shadow-teal-300', textColor: 'text-white', emoji: '🔄', preco: 'R$ 700,00', productId: 'prod_XrffrJ3F1JzjyPBq1MrGKdmM' },
+  { id: 57, titulo: 'Atualização para Diretor de Ensino de CFC', subtitulo: '20h', categoria: 'Diretor', bg: 'from-teal-500 to-emerald-600', shadow: 'shadow-teal-300', textColor: 'text-white', emoji: '🔄', preco: 'R$ 700,00', productId: 'prod_SxgfWuhZa4ud4Z1UPWRNcCfs' },
+  { id: 58, titulo: 'Formação para Examinador de Trânsito', subtitulo: '28h', categoria: 'Examinador', bg: 'from-amber-500 to-orange-600', shadow: 'shadow-amber-300', textColor: 'text-white', emoji: '📋', preco: 'R$ 900,00', productId: 'prod_Rh3peHPAJKuGdTeGDr0hkCW0' },
+  { id: 59, titulo: 'Atualização para Examinador de Trânsito', subtitulo: '20h', categoria: 'Examinador', bg: 'from-amber-500 to-orange-600', shadow: 'shadow-amber-300', textColor: 'text-white', emoji: '🔄', preco: 'R$ 440,00', productId: 'prod_gmR1aBzxgerXxhaH336AN3Hr' },
+  { id: 60, titulo: 'Pós-Graduação em Gestão e Direito de Trânsito', subtitulo: '360h', categoria: 'Pós-Graduação', bg: 'from-slate-700 to-slate-900', shadow: 'shadow-slate-400', textColor: 'text-white', emoji: '🎓', preco: 'R$ 2000,00', productId: 'prod_p1kpZX1hLpPmw4UFtrTJbUND' },
+  { id: 61, titulo: 'Pós-Graduação em Gestão e Educação para o Trânsito', subtitulo: '360h', categoria: 'Pós-Graduação', bg: 'from-slate-700 to-slate-900', shadow: 'shadow-slate-400', textColor: 'text-white', emoji: '🎓', preco: 'R$ 2000,00', productId: 'prod_1SKTZy4auj0JhZtaLKezuS4r' },
+  { id: 62, titulo: 'Pós-Graduação em Engenharia de Tráfego e Segurança Viária', subtitulo: '360h', categoria: 'Pós-Graduação', bg: 'from-slate-700 to-slate-900', shadow: 'shadow-slate-400', textColor: 'text-white', emoji: '🎓', preco: 'R$ 2000,00', productId: 'prod_JFKLB6LpPykd62yKmkHx4aSx' },
 ]
 
 
@@ -114,6 +129,13 @@ const REQUISITOS_CURSOS: Record<string, string[]> = {
   'Escolar Atualização': ['D', 'E'],
   'Produtos Perigosos - MOPP Formação': ['B', 'C', 'D', 'E'],
   'Produtos Perigosos - MOPP Atualização': ['B', 'C', 'D', 'E'],
+}
+
+// Estados permitidos para cursos de Reciclagem (por ID do curso)
+const ESTADOS_RECICLAGEM: Record<number, string[]> = {
+  11: ['AC', 'AL', 'DF', 'MA', 'MT', 'PE', 'RJ', 'SC', 'SE', 'SP', 'TO'],
+  12: ['DF', 'ES', 'GO', 'MT', 'MS', 'PE', 'RJ', 'RS', 'SC', 'SP'],
+  13: ['AC', 'AL', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'PE', 'PR', 'RJ', 'RS', 'SC', 'SE', 'SP', 'TO'],
 }
 
 type User = {
@@ -148,6 +170,13 @@ type ValidationError = {
   userCategories: string[]
 }
 
+type ValidationErrorEstado = {
+  hasError: boolean
+  estadoOk: boolean
+  allowedStates: string[]
+  userState: string
+}
+
 // Calcula idade a partir da data de nascimento
 function calcularIdade(dataNascimento: string): number {
   const hoje = new Date()
@@ -177,6 +206,20 @@ function validarRequisitoCurso(course: Course, user: User): ValidationError {
   }
 }
 
+// Valida estado permitido para cursos de Reciclagem
+function validarEstadoReciclagem(courseId: number, user: User): ValidationErrorEstado {
+  const allowedStates = ESTADOS_RECICLAGEM[courseId] || []
+  const userState = user.endereco?.estado?.toUpperCase() || ''
+  const estadoOk = allowedStates.length === 0 || allowedStates.includes(userState)
+
+  return {
+    hasError: !estadoOk,
+    estadoOk,
+    allowedStates,
+    userState,
+  }
+}
+
 export default function CursosPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
@@ -185,6 +228,8 @@ export default function CursosPage() {
   const [isLogged, setIsLogged] = useState(false)
   const [validationError, setValidationError] = useState<ValidationError | null>(null)
   const [courseTitle, setCourseTitle] = useState('')
+  const [validationErrorEstado, setValidationErrorEstado] = useState<ValidationErrorEstado | null>(null)
+  const [courseIdReciclagem, setCourseIdReciclagem] = useState<number | null>(null)
 
   useEffect(() => {
   startTransition(() => {
@@ -229,6 +274,18 @@ export default function CursosPage() {
         if (validation.hasError) {
           setValidationError(validation)
           setCourseTitle(course.titulo)
+          return
+        }
+      }
+
+      // Verifica se é um curso de reciclagem (id: 11, 12, 13)
+      const isReciclagemCourse = [11, 12, 13].includes(course.id)
+      if (isReciclagemCourse) {
+        const validationEstado = validarEstadoReciclagem(course.id, user)
+        
+        if (validationEstado.hasError) {
+          setValidationErrorEstado(validationEstado)
+          setCourseIdReciclagem(course.id)
           return
         }
       }
@@ -369,6 +426,61 @@ export default function CursosPage() {
               onClick={() => {
                 setValidationError(null)
                 setCourseTitle('')
+              }}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition-colors"
+            >
+              Entendido
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Erro de Estado - Reciclagem */}
+      {validationErrorEstado && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4">
+          <div className="bg-white rounded-2xl p-6 max-w-sm shadow-2xl animate-in fade-in zoom-in duration-300">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-full bg-red-100">
+                <svg className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h2 className="text-xl font-bold text-gray-900">Localização não permitida</h2>
+            </div>
+            
+            <p className="text-gray-700 mb-4 font-semibold">Este curso está disponível apenas em alguns estados</p>
+            
+            <div className="space-y-3 mb-6">
+              {/* Validação de Estado */}
+              <div className="flex items-start gap-3">
+                <div className={`flex-shrink-0 mt-0.5 ${validationErrorEstado.estadoOk ? 'text-green-500' : 'text-red-500'}`}>
+                  {validationErrorEstado.estadoOk ? (
+                    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  ) : (
+                    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                    </svg>
+                  )}
+                </div>
+                <div>
+                  <p className={`font-semibold ${validationErrorEstado.estadoOk ? 'text-green-700' : 'text-red-700'}`}>
+                    Estados permitidos: {validationErrorEstado.allowedStates.join(', ')}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    {validationErrorEstado.estadoOk 
+                      ? `✓ Seu estado (${validationErrorEstado.userState}) está permitido` 
+                      : `✗ Seu estado (${validationErrorEstado.userState}) não está na lista permitida`}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={() => {
+                setValidationErrorEstado(null)
+                setCourseIdReciclagem(null)
               }}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition-colors"
             >
