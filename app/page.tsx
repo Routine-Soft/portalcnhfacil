@@ -19,21 +19,13 @@ type Course = {
   emoji: string
   preco: string,
   productId: string,
+  imagem?: string
 }
-
-// const courses: Course[] = [
-//   { id: 1, titulo: 'Curso MOPP',                    subtitulo: 'Produtos Perigosos',    bg: 'from-yellow-400 to-yellow-500', shadow: 'shadow-yellow-300', textColor: 'text-yellow-900', emoji: '🚛', preco: 'R$ 199,90', productId: 'prod_NTGEAJ2DfU4PnLmwYzPeYKSC' },
-//   { id: 2, titulo: 'Curso para Taxista',             subtitulo: null,                    bg: 'from-blue-500 to-blue-600',     shadow: 'shadow-blue-300',   textColor: 'text-white',      emoji: '🚕', preco: 'R$ 199,90', productId: 'prod_r5nJ2MwdHgD544SQHZrey23j' },
-//   { id: 3, titulo: 'Curso de Transporte Escolar',    subtitulo: null,                    bg: 'from-emerald-500 to-green-600', shadow: 'shadow-emerald-300',textColor: 'text-white',      emoji: '🚌', preco: 'R$ 199,90', productId: 'prod_1234567890' },
-//   { id: 4, titulo: 'Curso para Condutor de Ambulância', subtitulo: null,                 bg: 'from-red-500 to-red-600',       shadow: 'shadow-red-300',    textColor: 'text-white',      emoji: '🚑', preco: 'R$ 199,90', productId: 'prod_0987654321' },
-//   { id: 5, titulo: 'Curso de Reciclagem CNH',        subtitulo: 'Condutores Infratores', bg: 'from-purple-500 to-purple-700', shadow: 'shadow-purple-300', textColor: 'text-white',      emoji: '🔄', preco: 'R$ 199,90', productId: 'prod_1122334455' },
-//   { id: 6, titulo: 'Curso NR-35',                    subtitulo: 'Trabalho em Altura',    bg: 'from-orange-400 to-orange-500', shadow: 'shadow-orange-300', textColor: 'text-orange-900', emoji: '🏗️', preco: 'R$ 199,90', productId: 'prod_5566778899' },
-// ]
 
 const courses: Course[] = [
  
   // ─── FORMAÇÃO ESPECIALIZADA ───────────────────────────────────────────────
-  { id: 1,  titulo: 'Carga Indivisível Formação',             subtitulo: 'CETCI',  categoria: 'Formação', bg: 'from-yellow-400 to-yellow-500', shadow: 'shadow-yellow-300', textColor: 'text-yellow-900', emoji: '🚛', preco: 'R$ 260,00', productId: 'prod_PUsCwUrUYwwhuydfmN4HtFu6' },
+  { id: 1,  titulo: 'Carga Indivisível Formação',             subtitulo: 'CETCI',  categoria: 'Formação', bg: 'from-yellow-400 to-yellow-500', shadow: 'shadow-yellow-300', textColor: 'text-yellow-900', emoji: '🚛', preco: 'R$ 260,00', productId: 'prod_PUsCwUrUYwwhuydfmN4HtFu6', imagem: "" },
   { id: 2,  titulo: 'Coletivo de Passageiros Formação',       subtitulo: 'CETCP',  categoria: 'Formação', bg: 'from-yellow-400 to-yellow-500', shadow: 'shadow-yellow-300', textColor: 'text-yellow-900', emoji: '🚌', preco: 'R$ 260,00', productId: 'prod_PcgrqBLyNUGmLhJqg6aPzUpP' },
   { id: 3,  titulo: 'Emergência Formação',                    subtitulo: 'CETVE',  categoria: 'Formação', bg: 'from-yellow-400 to-yellow-500', shadow: 'shadow-yellow-300', textColor: 'text-yellow-900', emoji: '🚑', preco: 'R$ 260,00', productId: 'prod_fYsaJFATU3ZznqUkW0gmxfUz' },
   { id: 4,  titulo: 'Escolar Formação',                       subtitulo: 'CETE',   categoria: 'Formação', bg: 'from-yellow-400 to-yellow-500', shadow: 'shadow-yellow-300', textColor: 'text-yellow-900', emoji: '🏫', preco: 'R$ 260,00', productId: 'prod_r4BZPqU1Hx42xDuYxeFZE2FC' },
@@ -310,35 +302,58 @@ export default function CursosPage() {
       <Header />
       <WhatsappButton />
 
-      {/* Cards */}
-      <section className="px-5 -mt-8 pb-16 relative z-10 max-w-lg mx-auto flex flex-col gap-4">
-        <div className="text-[#0d2160] font-black text-xl tracking-wide uppercase mb-6"></div>
+{/* Cards */}
+<section className="max-w-7xl mx-auto px-5 py-16">
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    {courses.map((course) => (
+      <div
+        key={course.id}
+        onClick={() => !loading && handleCourseClick(course)}
+        className={`group relative h-[430px] overflow-hidden rounded-xl shadow-xl cursor-pointer ${
+          loading ? 'opacity-70 cursor-not-allowed' : ''
+        }`}
+      >
+        {/* Imagem de fundo */}
+        <img
+          src={course.imagem}
+          alt={course.titulo}
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+        />
 
-        {courses.map((course) => (
-          <div
-            key={course.id}
-            onClick={() => !loading && handleCourseClick(course)}
-            className={`relative flex items-center justify-between bg-gradient-to-r ${course.bg} rounded-2xl overflow-hidden shadow-lg ${course.shadow} px-6 py-5 cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200 ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/45"></div>
+
+        {/* Conteúdo */}
+        <div className="absolute inset-0 flex flex-col justify-end p-6">
+
+          <h3 className="text-3xl font-semibold text-white leading-tight">
+            {course.titulo}
+          </h3>
+
+          {course.subtitulo && (
+            <p className="mt-2 text-white/90 text-sm">
+              {course.subtitulo}
+            </p>
+          )}
+
+          {REQUISITOS_CURSOS[course.titulo] && (
+            <p className="mt-3 text-xs text-white/80">
+              Requisitos: 21 anos • Categoria{' '}
+              {REQUISITOS_CURSOS[course.titulo].join(', ')}
+            </p>
+          )}
+
+          <button
+            className="mt-6 w-full rounded-full bg-[#f8b400] py-4 text-white font-bold transition hover:bg-[#e9a600]"
           >
-            <div className="absolute inset-0 opacity-20">
-              <svg viewBox="0 0 400 120" preserveAspectRatio="none" className="w-full h-full">
-                <path d="M0,60 C100,20 200,100 300,60 C350,40 380,80 400,60 L400,120 L0,120 Z" fill="white"/>
-              </svg>
-            </div>
-            <div className="relative z-10 flex-1">
-              <p className={`font-black text-lg leading-snug ${course.textColor}`}>{course.titulo}</p>
-              <p className={`font-black text-lg ${course.textColor}`}>{course.preco}</p>
-              {course.subtitulo && <p className={`text-sm font-semibold mt-0.5 opacity-80 ${course.textColor}`}>({course.subtitulo})</p>}
-              {REQUISITOS_CURSOS[course.titulo] && (
-                <div className={`text-xs mt-1.5 opacity-75 ${course.textColor}`}>
-                  <p>Requisitos: Idade 21 anos - Categoria: {REQUISITOS_CURSOS[course.titulo].join(', ')}</p>
-                </div>
-              )}
-            </div>
-            <div className="relative z-10 text-5xl ml-4 drop-shadow-md select-none">{course.emoji}</div>
-          </div>
-        ))}
-      </section>
+            SAIBA MAIS
+          </button>
+
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
 
       {/* Footer */}
       <Footer />
