@@ -310,21 +310,9 @@ export default function CursosPage() {
       <Header />
       <WhatsappButton />
 
-      {/* Hero */}
-      <section className="relative bg-[#0d2160] px-6 pt-10 pb-20 text-center overflow-hidden">
-        <div className="absolute -top-10 -left-10 w-48 h-48 rounded-full bg-blue-800 opacity-30" />
-        <div className="absolute -bottom-16 -right-10 w-64 h-64 rounded-full bg-blue-900 opacity-40" />
-        <div className="relative z-10 flex flex-col items-center gap-4">
-          <h1 className="text-white font-black text-xl md:text-2xl tracking-wide uppercase leading-snug">
-            Cursos de Especialização<br />para Condutores
-          </h1>
-          <p className="text-blue-200 text-sm max-w-xs">Certificados válidos em todo o Brasil · Homologado pelo SENATRAN</p>
-        </div>
-      </section>
-
       {/* Cards */}
       <section className="px-5 -mt-8 pb-16 relative z-10 max-w-lg mx-auto flex flex-col gap-4">
-        <h2 className="text-[#0d2160] font-black text-xl tracking-wide uppercase mb-1">Cursos</h2>
+        <div className="text-[#0d2160] font-black text-xl tracking-wide uppercase mb-6"></div>
 
         {courses.map((course) => (
           <div

@@ -43,16 +43,26 @@ export default function Header() {
 
   return (
     <>
-      <header className="bg-[#0d2160] px-6 py-4 flex items-center justify-between shadow-md">
+      <header
+        className="relative px-6 py-10 flex items-center justify-between shadow-md bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('/img/img-header.png')",
+        }}
+      >
+        {/* Camada escura sobre a imagem */}
+        <div className="absolute inset-0 "></div>
+
+        {/* Conteúdo */}
+        <div className="relative z-10 flex items-center justify-between w-full">
 
         <div className="flex items-center gap-3">
           <Link href="/">
             <Image
               src="/img/logotransparente1.png"
               alt="Logo"
-              width={110}
+              width={150}
               height={80}
-              style={{ width: 110, height: 'auto' }}
+              style={{ width: 150, height: 'auto' }}
             />
           </Link>
         </div>
@@ -67,7 +77,7 @@ export default function Header() {
                   onClick={() => router.push('/')}
                   className="hover:text-yellow-400 transition cursor-pointer"
                 >
-                  Pagina Principal
+                  Início
                 </button>
 
                 <button
@@ -115,7 +125,7 @@ export default function Header() {
                   onClick={() => router.push('/')}
                   className="hover:text-yellow-400 transition cursor-pointer"
                 >
-                  Pagina Principal
+                  Início
                 </button>
 
                 <button
@@ -166,6 +176,7 @@ export default function Header() {
             <span className="w-6 h-0.5 bg-white" />
           </button>
 
+        </div>
         </div>
       </header>
 
