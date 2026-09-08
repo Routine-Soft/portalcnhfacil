@@ -1,4 +1,5 @@
 'use client'
+// app/pagamento/sucesso/page.tsx
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'

@@ -1,4 +1,5 @@
 'use client'
+// app/pagamento/page.tsx
 
 import { Suspense, useEffect, useRef, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
