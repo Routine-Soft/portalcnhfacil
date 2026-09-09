@@ -1,5 +1,7 @@
 'use client'
 
+// src/app/dashboard/page.tsx
+
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Header from '@/app/components/Header'
