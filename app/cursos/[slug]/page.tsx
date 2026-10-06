@@ -33,7 +33,7 @@ export default function CursoDetalhePage({ params }: { params: Promise<{ slug: s
     return (
       <main className="min-h-screen flex flex-col items-center justify-center gap-4">
         <p className="text-lg">Curso não encontrado.</p>
-        <button onClick={() => router.push('/cursos')} className="text-blue-600 underline">
+        <button onClick={() => router.push('/')} className="text-blue-600 underline">
           Voltar para cursos
         </button>
       </main>
@@ -88,7 +88,7 @@ export default function CursoDetalhePage({ params }: { params: Promise<{ slug: s
       <WhatsappButton />
 
       <section className="max-w-5xl mx-auto px-5 py-12">
-        <button onClick={() => router.push('/cursos')} className="mb-6 text-sm text-gray-600 hover:underline">
+        <button onClick={() => router.push('/')} className="mb-6 text-sm text-gray-600 hover:underline">
           ← Voltar para todos os cursos
         </button>
 
