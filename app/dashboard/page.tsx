@@ -8,6 +8,7 @@ import Header from '@/app/components/Header'
 import Footer from '@/app/components/Footer'
 import WhatsappButton from '@/app/components/WhatsappButton'
 import Usuarios from '@/app/components/Usuarios'
+import { getPaymentMethodLabel, type GatewayResponse } from '@/app/lib/payments'
 
 type Purchase = {
   _id: string
@@ -16,12 +17,7 @@ type Purchase = {
   status: string
   paid_at: string
 
-  gateway_response?: {
-    payerInformation?: {
-      method?: string
-    }
-    methods?: string[]
-  }
+  gateway_response?: GatewayResponse | null
 
   user?: {
     nome?: string
@@ -41,20 +37,6 @@ type Purchase = {
       cep?: string
     }
   }
-}
-
-function getPaymentMethodLabel(method: string | undefined): string {
-  if (!method) return '-'
-
-  const translations: Record<string, string> = {
-    card: 'Cartão',
-    boleto: 'Boleto',
-    pix: 'PIX',
-    debit_card: 'Cartão de Débito',
-    credit_card: 'Cartão de Crédito',
-  }
-
-  return translations[method.toLowerCase()] || method
 }
 
 export default function DashboardPage() {
@@ -227,6 +209,15 @@ export default function DashboardPage() {
               </div>
             ) : (
               <div className="space-y-3">
+                <div className="bg-white rounded-2xl shadow-sm border border-slate-100 px-5 py-3 flex items-center justify-between">
+                  <p className="text-slate-500 text-sm">
+                    Total de compras: <span className="text-[#0d2160] font-black">{purchases.length}</span>
+                  </p>
+                  <p className="text-emerald-700 font-black text-sm">
+                    R$ {purchases.reduce((sum, p) => sum + Number(p.preco || 0), 0).toFixed(2)}
+                  </p>
+                </div>
+
                 {purchases.map((purchase) => (
                   <div
                     key={purchase._id}
@@ -316,10 +307,7 @@ export default function DashboardPage() {
                           <Info label="UF CNH" value={purchase.user?.ufCnh} />
                           <Info
                             label="Método de Pagamento"
-                            value={getPaymentMethodLabel(
-                              purchase.gateway_response?.payerInformation?.method ||
-                              purchase.gateway_response?.methods?.[0]
-                            )}
+                            value={getPaymentMethodLabel(purchase.gateway_response)}
                           />
                           <Info label="Logradouro" value={purchase.user?.endereco?.logradouro} />
                           <Info label="Número" value={purchase.user?.endereco?.numero} />

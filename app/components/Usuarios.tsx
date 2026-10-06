@@ -1,6 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
+import Link from 'next/link'
+import { courses } from '@/app/lib/courses'
+import { getPaymentMethodLabel, type GatewayResponse } from '@/app/lib/payments'
 
 type User = {
   _id: string
@@ -28,8 +31,26 @@ type User = {
 
 type EditingUser = Partial<User> & { _id?: string }
 
+type Purchase = {
+  _id: string
+  titulo: string
+  preco: number
+  status: string
+  paid_at?: string
+  product_id?: string | null
+  gateway_response?: GatewayResponse | null
+  user?: { _id?: string; email?: string } | null
+}
+
+function formatDate(date?: string, withTime = false) {
+  if (!date) return '-'
+  const d = new Date(date)
+  return withTime ? d.toLocaleString('pt-BR') : d.toLocaleDateString('pt-BR')
+}
+
 export default function Usuarios() {
   const [users, setUsers] = useState<User[]>([])
+  const [purchases, setPurchases] = useState<Purchase[]>([])
   const [loading, setLoading] = useState(true)
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [editingUser, setEditingUser] = useState<EditingUser | null>(null)
@@ -44,10 +65,15 @@ export default function Usuarios() {
     ;(async () => {
       try {
         setLoading(true)
-        const response = await fetch(`${API_URL}/api/users`)
-        const data = await response.json()
+        const [usersResponse, historyResponse] = await Promise.all([
+          fetch(`${API_URL}/api/users`),
+          fetch(`${API_URL}/api/history`),
+        ])
+        const usersData = await usersResponse.json()
+        const historyData: Purchase[] = historyResponse.ok ? await historyResponse.json() : []
         if (isMounted) {
-          setUsers(data)
+          setUsers(usersData)
+          setPurchases(historyData.filter((p) => p.status === 'paid'))
         }
       } catch (error) {
         console.error('Erro ao buscar usuários:', error)
@@ -62,6 +88,22 @@ export default function Usuarios() {
       isMounted = false
     }
   }, [API_URL])
+
+  const purchasesByUser = useMemo(() => {
+    const map = new Map<string, Purchase[]>()
+    for (const user of users) {
+      const email = user.email?.toLowerCase()
+      const list = purchases
+        .filter((p) =>
+          p.user?._id
+            ? String(p.user._id) === user._id
+            : !!email && p.user?.email?.toLowerCase() === email
+        )
+        .sort((a, b) => new Date(b.paid_at || 0).getTime() - new Date(a.paid_at || 0).getTime())
+      map.set(user._id, list)
+    }
+    return map
+  }, [users, purchases])
 
   async function handleDelete(id: string) {
     if (!confirm('Tem certeza que deseja deletar este usuário?')) return
@@ -148,29 +190,49 @@ export default function Usuarios() {
 
   return (
     <div className="space-y-3">
-      {users.map((user) => (
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 px-5 py-3 flex items-center justify-between">
+        <p className="text-slate-500 text-sm">
+          Total de usuários: <span className="text-[#0d2160] font-black">{users.length}</span>
+        </p>
+        <p className="text-slate-500 text-sm">
+          Com compras:{' '}
+          <span className="text-emerald-700 font-black">
+            {users.filter((u) => (purchasesByUser.get(u._id)?.length ?? 0) > 0).length}
+          </span>
+        </p>
+      </div>
+
+      {users.map((user) => {
+        const userPurchases = purchasesByUser.get(user._id) ?? []
+
+        return (
         <div
           key={user._id}
-          className="bg-white rounded-3xl shadow-xl border border-slate-100"
+          className="bg-white rounded-2xl shadow-sm border border-slate-100"
         >
           {/* Cabeçalho - Sempre visível */}
-          <div className="flex items-center justify-between p-6">
-            <div className="flex items-center gap-3 flex-1">
-              <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-bold">
+          <div className="flex items-center justify-between px-4 py-3">
+            <div className="flex items-center gap-3 flex-1 min-w-0">
+              <div className="w-9 h-9 shrink-0 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-bold">
                 {user.nome.charAt(0).toUpperCase()}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-bold text-[#0d2160] truncate">{user.nome}</p>
+                <p className="font-bold text-[#0d2160] text-sm truncate">{user.nome}</p>
                 <p className="text-xs text-slate-500 truncate">{user.email}</p>
               </div>
             </div>
 
-            <div className="flex gap-2 ml-4">
+            <div className="flex items-center gap-2 ml-3">
+              {userPurchases.length > 0 && (
+                <span className="hidden sm:inline bg-emerald-50 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full">
+                  {userPurchases.length} {userPurchases.length === 1 ? 'curso' : 'cursos'}
+                </span>
+              )}
               <button
                 onClick={() =>
                   setExpandedId(expandedId === user._id ? null : user._id)
                 }
-                className="px-5 py-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-full text-sm transition-colors cursor-pointer"
+                className="px-4 py-1.5 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-full text-xs transition-colors cursor-pointer"
               >
                 {expandedId === user._id ? 'Ver menos' : 'Ver mais'}
               </button>
@@ -179,13 +241,13 @@ export default function Usuarios() {
 
           {/* Detalhes - Visível quando expandido */}
           {expandedId === user._id && (
-            <div className="px-6 pb-6 border-t border-slate-100 pt-6">
-              <div className="grid md:grid-cols-2 gap-4 mb-6">
-                <Info label="Nome" value={user.nome} />
+            <div className="px-4 pb-4 border-t border-slate-100 pt-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-4">
+                <Info label="Conta criada em" value={formatDate(user.createdAt, true)} />
                 <Info label="Email" value={user.email} />
-                <Info 
-                  label="WhatsApp" 
-                  value={user.whatsapp} 
+                <Info
+                  label="WhatsApp"
+                  value={user.whatsapp}
                   onClick={() => {
                     if (user.whatsapp) {
                       window.open(`https://wa.me/${user.whatsapp.replace(/\D/g, '')}`, '_blank')
@@ -193,43 +255,92 @@ export default function Usuarios() {
                   }}
                 />
                 <Info label="CPF" value={user.cpf} />
-                <Info
-                  label="Data de Nascimento"
-                  value={
-                    user.dataNascimento
-                      ? new Date(user.dataNascimento).toLocaleDateString('pt-BR')
-                      : '-'
-                  }
-                />
+                <Info label="Nascimento" value={formatDate(user.dataNascimento)} />
                 <Info label="CNH" value={user.cnh} />
                 <Info
                   label="Categoria CNH"
                   value={user.categoriaCnh?.join(', ') || '-'}
                 />
                 <Info label="UF CNH" value={user.ufCnh} />
-                <Info label="Logradouro" value={user.endereco?.logradouro} />
-                <Info label="Número" value={user.endereco?.numero} />
-                <Info label="Complemento" value={user.endereco?.complemento} />
-                <Info label="Bairro" value={user.endereco?.bairro} />
-                <Info label="Cidade" value={user.endereco?.cidade} />
-                <Info label="Estado" value={user.endereco?.estado} />
-                <Info label="CEP" value={user.endereco?.cep} />
                 <Info
-                  label="Acesso Administrativo"
+                  label="Acesso Admin"
                   value={user.access ? 'Sim' : 'Não'}
+                />
+                <Info
+                  label="Endereço"
+                  value={[
+                    [user.endereco?.logradouro, user.endereco?.numero].filter(Boolean).join(', '),
+                    user.endereco?.complemento,
+                    user.endereco?.bairro,
+                    [user.endereco?.cidade, user.endereco?.estado].filter(Boolean).join('/'),
+                    user.endereco?.cep,
+                  ].filter(Boolean).join(' · ')}
+                  wide
                 />
               </div>
 
-              <div className="flex gap-3 pt-4 border-t border-slate-100">
+              {/* Cursos comprados */}
+              <div className="mb-4">
+                <p className="text-[11px] uppercase tracking-wide text-slate-400 font-bold mb-2">
+                  Cursos comprados ({userPurchases.length})
+                </p>
+
+                {userPurchases.length === 0 ? (
+                  <p className="text-sm text-slate-400 bg-slate-50 rounded-xl px-3 py-2">
+                    Nenhuma compra aprovada
+                  </p>
+                ) : (
+                  <div className="space-y-2">
+                    {userPurchases.map((purchase) => {
+                      const course = courses.find((c) => c.productId === purchase.product_id)
+                        ?? courses.find((c) => c.titulo === purchase.titulo)
+
+                      return (
+                        <div
+                          key={purchase._id}
+                          className="flex items-center justify-between gap-3 bg-slate-50 rounded-xl px-3 py-2"
+                        >
+                          <div className="min-w-0">
+                            {course ? (
+                              <Link
+                                href={`/cursos/${course.slug}`}
+                                target="_blank"
+                                className="text-sm font-bold text-[#0d2160] hover:underline truncate block"
+                              >
+                                {course.emoji} {purchase.titulo}
+                              </Link>
+                            ) : (
+                              <p className="text-sm font-bold text-[#0d2160] truncate">{purchase.titulo}</p>
+                            )}
+                            <p className="text-xs text-slate-500">
+                              {[
+                                course?.categoria,
+                                course?.subtitulo,
+                                getPaymentMethodLabel(purchase.gateway_response),
+                                formatDate(purchase.paid_at, true),
+                              ].filter(Boolean).join(' · ')}
+                            </p>
+                          </div>
+                          <span className="shrink-0 text-emerald-700 font-black text-sm">
+                            R$ {Number(purchase.preco).toFixed(2)}
+                          </span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
+              </div>
+
+              <div className="flex gap-2 pt-3 border-t border-slate-100">
                 <button
                   onClick={() => startEdit(user)}
-                  className="flex-1 bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 rounded-2xl transition-colors"
+                  className="flex-1 bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm py-1.5 rounded-xl transition-colors"
                 >
                   Editar
                 </button>
                 <button
                   onClick={() => handleDelete(user._id)}
-                  className="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-2 rounded-2xl transition-colors"
+                  className="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold text-sm py-1.5 rounded-xl transition-colors"
                 >
                   Deletar
                 </button>
@@ -237,7 +348,8 @@ export default function Usuarios() {
             </div>
           )}
         </div>
-      ))}
+        )
+      })}
 
       {/* Modal de Edição */}
       {showEditModal && editingUser && (
@@ -470,16 +582,16 @@ export default function Usuarios() {
   )
 }
 
-function Info({ label, value, onClick }: { label: string; value?: string; onClick?: () => void }) {
+function Info({ label, value, onClick, wide }: { label: string; value?: string; onClick?: () => void; wide?: boolean }) {
   return (
-    <div 
-      className={`bg-slate-50 rounded-2xl p-4 ${onClick ? 'cursor-pointer hover:bg-slate-100 transition-colors' : ''}`}
+    <div
+      className={`bg-slate-50 rounded-xl px-3 py-2 ${wide ? 'col-span-2 md:col-span-3' : ''} ${onClick ? 'cursor-pointer hover:bg-slate-100 transition-colors' : ''}`}
       onClick={onClick}
     >
-      <p className="text-xs uppercase tracking-wide text-slate-400 font-bold mb-1">
+      <p className="text-[11px] uppercase tracking-wide text-slate-400 font-bold">
         {label}
       </p>
-      <p className={`${onClick ? 'text-green-600 font-bold' : 'text-[#0d2160]'} font-semibold break-all`}>{value || '-'}</p>
+      <p className={`${onClick ? 'text-green-600 font-bold' : 'text-[#0d2160]'} text-sm font-semibold break-all`}>{value || '-'}</p>
     </div>
   )
 }
